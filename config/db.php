@@ -1,8 +1,8 @@
 <?php
-$host = "81.171.31.232";
-$username = "dj98";
-$password = "Nowehaslo7777";
-$dbname = "dj98"; 
+$host = "";
+$username = "";
+$password = "";
+$dbname = ""; 
 
 
 
