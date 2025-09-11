@@ -14,7 +14,3 @@ CREATE TABLE `taskora_tasks` (
 
 INSERT INTO `taskora_tasks` (`user_id`, `assigned_to`, `title`, `description`, `status`, `priority`)
 VALUES
-(1, 2, 'Stworzyć stronę główną', 'Projekt UI i implementacja w React', 'todo', 'high'),
-(1, 3, 'Napisać backend API', 'Obsługa logowania i CRUD tasków', 'in_progress', 'medium'),
-(2, NULL, 'Sprawdzić SEO', 'Analiza meta tagów i linków', 'review', 'low'),
-(3, 1, 'Wdrożyć system powiadomień', 'Powiadomienia dla użytkowników', 'done', 'high');
