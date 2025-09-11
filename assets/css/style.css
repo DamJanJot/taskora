@@ -1,0 +1,128 @@
+.board {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.column {
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 10px;
+  width: 22%;
+}
+.task {
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.task-actions {
+  margin-top: 8px;
+}
+.task-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 5px;
+}
+.add-task {
+  margin: 20px;
+  text-align: center;
+}
+.add-task input, .add-task textarea {
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.add-task button {
+  padding: 8px 16px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logout-link {
+  text-decoration: none;
+  color: #64748b;
+}
+
+.logout-link:hover {
+  color: #ef4444;
+}
+
+/* Ukryty formularz */
+.add-task {
+  background: #f1f5f9;
+  padding: 15px;
+  margin: 15px auto;
+  border-radius: 8px;
+  width: 50%;
+  text-align: center;
+}
+
+.add-task input,
+.add-task textarea {
+  width: 80%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #1e40af;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
+
+
