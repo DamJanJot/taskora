@@ -17,6 +17,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8">
   <title>Taskora</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="website icon" type="png" src="assets/img/taskora_logo.png" >
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 </head>
 <body>
