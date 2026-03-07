@@ -46,3 +46,11 @@ CREATE TABLE taskora_projects (
 
 ## Demo
 After logging in, each user sees their own Kanban board and can manage tasks in real time.
+
+
+## Taskora v3 (projekty + poprawione polskie znaki)
+
+1. Uruchom migrację: `migrations/taskora_v3.sql` (phpMyAdmin/CLI). Zrób backup przed.
+2. Wejdź na `index.php` – najpierw zobaczysz listę projektów. Kliknij projekt, żeby wejść do tablicy.
+3. Opisy wspierają Enter (nowa linia), **pogrubienie** oraz listy: `- punkt` / `1. punkt`.
+4. Edycja taska: dwuklik na karcie lub ikonka ✏️.

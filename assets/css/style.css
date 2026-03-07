@@ -258,3 +258,122 @@ html, body { margin: 0; padding: 0; overflow-x: hidden; }
 main.board { max-width: calc(100% - 40px); margin: 0 auto; }
 .column { flex: 1 1 300px; min-width: 260px; }
 img { max-width: 44px; height: auto; }
+
+/* --- Projects list --- */
+.project-card{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  border-radius:16px;
+  padding:16px;
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,0,0,0.08);
+  transition: transform .12s ease, box-shadow .12s ease;
+  height:100%;
+}
+.project-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+}
+.project-card__title{
+  font-weight:700;
+  font-size:1.1rem;
+  margin-bottom:6px;
+}
+.project-card__desc{
+  font-size:.92rem;
+  color:#333;
+  opacity:.9;
+  max-height: 86px;
+  overflow:hidden;
+}
+.project-card__progress{
+  margin-top:12px;
+}
+.project-card__meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+  font-size:.85rem;
+  color:#444;
+  opacity:.85;
+}
+
+
+.project-card--wrap{
+  position:relative;
+}
+.project-card__top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.project-card__actions{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.project-card__link{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+}
+.project-card__body{
+  margin-top:6px;
+}
+.project-card__meta{
+  gap:10px;
+  flex-wrap:wrap;
+}
+.project-card__meta .updated{
+  margin-left:auto;
+  font-size:.78rem;
+  opacity:.75;
+}
+
+/* --- Better task description rendering --- */
+.task-desc{
+  font-size: .95rem;
+  color:#2b2b2b;
+  line-height: 1.25rem;
+}
+.task-desc ul, .task-desc ol{
+  margin: 6px 0 6px 18px;
+}
+.task-desc li{
+  margin: 2px 0;
+}
+
+/* --- Mini markdown toolbar --- */
+.mini-toolbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin: 8px 0 6px 0;
+  flex-wrap: wrap;
+}
+.mini-btn{
+  border: 1px solid rgba(0,0,0,.18);
+  background: rgba(255,255,255,.88);
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor:pointer;
+  font-size: .9rem;
+}
+.mini-btn:hover{
+  background: rgba(255,255,255,1);
+}
+
+/* Make textareas consistent */
+#taskDesc, #editTaskDesc, #projectDesc{
+  width:100%;
+  resize: vertical;
+}
+
+/* Allow description to keep line breaks everywhere */
+.task p, .task-desc{
+  white-space: normal;
+}
