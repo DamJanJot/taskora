@@ -3,13 +3,28 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+// On local dev we use .env, on Render we rely on runtime environment variables.
+$projectRoot = dirname(__DIR__);
+if (is_file($projectRoot . '/.env')) {
+    Dotenv::createImmutable($projectRoot)->safeLoad();
+}
 
-$host = $_ENV['DB_HOST'];
-$dbname = $_ENV['DB_NAME'];
-$username = $_ENV['DB_USER'];
-$password = $_ENV['DB_PASS'];
+$getEnv = static function (string $key, $default = null) {
+    $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
+    if ($value === false || $value === null || $value === '') {
+        return $default;
+    }
+    return $value;
+};
+
+$host = $getEnv('DB_HOST');
+$dbname = $getEnv('DB_NAME');
+$username = $getEnv('DB_USER');
+$password = $getEnv('DB_PASS', '');
+
+if (!$host || !$dbname || !$username) {
+    die('Brak konfiguracji DB. Ustaw DB_HOST, DB_NAME, DB_USER i DB_PASS w srodowisku.');
+}
 
 try {
     // Use utf8mb4 to correctly store/display Polish characters and emojis.
@@ -31,7 +46,6 @@ try {
     // Without it, tasks can't be assigned to projects and the board will appear empty.
     // This block adds the missing column/index if possible.
     try {
-        $dbNameSafe = str_replace('`', '``', $dbname);
         $colCheck = $pdo->prepare(
             "SELECT COUNT(*)
              FROM INFORMATION_SCHEMA.COLUMNS
