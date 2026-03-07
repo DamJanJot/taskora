@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: taskora
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /login.php
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false

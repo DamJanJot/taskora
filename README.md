@@ -1,56 +1,66 @@
-# Taskora – Kanban Task Board
+# Taskora - Kanban Task Board
 
-Taskora is a web-based Kanban board application for managing tasks efficiently.
+Taskora to webowa aplikacja Kanban do zarzadzania taskami i projektami.
 
-## Features
-- User authentication (based on the `uzytkownicy` table)
-- Add new tasks
-- Edit and delete tasks
-- Drag & drop between columns:
-  - Task Ready
-  - In Progress
-  - Needs Review
-  - Done
-- Clean and responsive interface
-- Task history stored in the database
+## Linki
+- GitHub: https://github.com/DamJanJot/taskora
+- Demo (Render): https://taskora-ae4p.onrender.com
 
-## Database Structure
-Table `taskora_projects`:
-```sql
-CREATE TABLE taskora_projects (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    status ENUM('ready','progress','review','done') DEFAULT 'ready',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES uzytkownicy(id)
-);
-```
+## Funkcje
+- Logowanie uzytkownika (`uzytkownicy`)
+- Lista projektow (`taskora_projects`)
+- Tablica taskow per projekt (`taskora_tasks`)
+- Drag and drop miedzy kolumnami
+- Trwala kolejnosc taskow w kolumnie
+- Dodawanie, edycja i usuwanie projektow
+- Dodawanie, edycja i usuwanie taskow
 
-## Technologies
-- **PHP 8** (backend + API)
-- **MySQL** (database)
-- **JavaScript (Fetch + SortableJS)** (interactivity + AJAX)
-- **HTML + CSS** (frontend)
+## Stack
+- PHP 8 + Apache
+- MySQL
+- JavaScript (Fetch + SortableJS)
+- HTML + CSS
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/taskora.git
-   ```
-2. Configure your database in `config/db.php`.
-3. Import the `taskora_projects` table (SQL above).
-4. Launch the application in your browser.
+## Lokalny start
+1. Sklonuj repozytorium:
+  ```bash
+  git clone https://github.com/DamJanJot/taskora.git
+  cd taskora
+  ```
+2. Skopiuj zmienne srodowiskowe:
+  ```bash
+  cp .env.example .env
+  ```
+3. Uzupelnij dane DB w `.env` (`DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASS`).
+4. Uruchom SQL:
+  - `taskora.sql`
+  - `migrations/taskora_v3.sql`
+5. Odpal przez Apache/PHP (np. XAMPP) i wejdz na `login.php`.
 
-## Demo
-After logging in, each user sees their own Kanban board and can manage tasks in real time.
+## Deploy na Render (PHP, bez Node)
+Repo ma gotowe pliki:
+- `Dockerfile`
+- `render.yaml`
 
+Kroki:
+1. W Render wybierz `New +` -> `Web Service` -> repo `DamJanJot/taskora`.
+2. Runtime ustaw na `Docker` (nie `Node`).
+3. Dodaj env vars:
+  - `DB_HOST`
+  - `DB_NAME`
+  - `DB_USER`
+  - `DB_PASS`
+4. Deploy.
 
-## Taskora v3 (projekty + poprawione polskie znaki)
+Jesli widzisz blad typu `yarn start` / `Couldn't find a package.json file`, to serwis jest ustawiony jako Node. Przelacz runtime na Docker lub utworz nowy Web Service z Docker.
 
-1. Uruchom migrację: `migrations/taskora_v3.sql` (phpMyAdmin/CLI). Zrób backup przed.
-2. Wejdź na `index.php` – najpierw zobaczysz listę projektów. Kliknij projekt, żeby wejść do tablicy.
-3. Opisy wspierają Enter (nowa linia), **pogrubienie** oraz listy: `- punkt` / `1. punkt`.
-4. Edycja taska: dwuklik na karcie lub ikonka ✏️.
+## Baza danych (uzywane tabele)
+- `uzytkownicy`
+- `taskora_projects`
+- `taskora_tasks`
+
+## Taskora v3
+1. Uruchom migracje: `migrations/taskora_v3.sql` (backup przed uruchomieniem).
+2. Wejdz na `index.php` - najpierw lista projektow, potem tablica wybranego projektu.
+3. Opisy wspieraja nowa linie, pogrubienie i listy.
+4. Edycja taska: dwuklik na karcie lub ikona olowka.

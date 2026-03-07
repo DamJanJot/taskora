@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+taskora z serwera.zip
+taskora.zip
+taskora_v2.zip
+*.log
+node_modules
+_server_zip_extract
