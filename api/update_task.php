@@ -29,7 +29,7 @@ function taskora_ensure_sort_order_column(PDO $pdo): void {
     }
 }
 
-function taskora_update_status_row(PDO $pdo, int $id, int $user_id, string $status, ?int $sortOrder = null, ?int $project_id = null): void {
+function taskora_update_status_row(PDO $pdo, int $id, int $user_id, string $status, ?int $sortOrder = null, ?int $project_id = null): int {
     $params = [];
     $set = "status = ?";
     $params[] = $status;
@@ -51,13 +51,14 @@ function taskora_update_status_row(PDO $pdo, int $id, int $user_id, string $stat
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
+        return (int)$stmt->rowCount();
     } catch (PDOException $e) {
         // Backward compatibility for ENUM('todo','in_progress','review','done').
         if ($status === 'progress') {
             $params[0] = 'in_progress';
             $stmt = $pdo->prepare($sql);
             $stmt->execute($params);
-            return;
+            return (int)$stmt->rowCount();
         }
         throw $e;
     }
@@ -83,12 +84,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $pdo->beginTransaction();
             $position = 1;
+            $updatedAny = 0;
             foreach ($orderedIds as $rawId) {
                 $id = (int)$rawId;
                 if ($id <= 0) continue;
-                taskora_update_status_row($pdo, $id, $user_id, $status, $position, $project_id > 0 ? $project_id : null);
+
+                $affected = taskora_update_status_row($pdo, $id, $user_id, $status, $position, $project_id > 0 ? $project_id : null);
+
+                // Legacy safety: if row did not match with project filter, retry without it.
+                if ($affected === 0 && $project_id > 0) {
+                    $affected = taskora_update_status_row($pdo, $id, $user_id, $status, $position, null);
+                }
+
+                $updatedAny += $affected;
                 $position++;
             }
+
+            if ($updatedAny === 0) {
+                throw new RuntimeException('Brak zaktualizowanych rekordow');
+            }
+
             $pdo->commit();
             echo json_encode(["success" => true], JSON_UNESCAPED_UNICODE);
         } catch (Throwable $e) {
@@ -135,7 +150,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $project_id = isset($_POST['project_id']) ? (int)$_POST['project_id'] : 0;
 
         try {
-            taskora_update_status_row($pdo, $id, $user_id, $status, $sortOrder, $project_id > 0 ? $project_id : null);
+            $affected = taskora_update_status_row($pdo, $id, $user_id, $status, $sortOrder, $project_id > 0 ? $project_id : null);
+            if ($affected === 0 && $project_id > 0) {
+                $affected = taskora_update_status_row($pdo, $id, $user_id, $status, $sortOrder, null);
+            }
+
+            if ($affected === 0) {
+                throw new RuntimeException('Brak zaktualizowanego rekordu');
+            }
+
             echo json_encode(["success" => true], JSON_UNESCAPED_UNICODE);
         } catch (Throwable $e) {
             http_response_code(500);
